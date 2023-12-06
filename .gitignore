@@ -3,4 +3,8 @@ src/__pycache__
 
 src/.ipynb_checkpoints
 
-src/.venv/
+assets/
+.venv
+
+test.py
+misc_functions.py
