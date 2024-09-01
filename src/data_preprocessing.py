@@ -12,7 +12,7 @@ image_transform = transforms.Compose(
         transforms.ToTensor(),
         transforms.Normalize(
             mean=[0.1855, 0.1855, 0.1855], std=[0.2003, 0.2003, 0.2004]
-        )
+        ),
     ]
 )
 
