@@ -8,3 +8,5 @@ assets/
 
 test.py
 misc_functions.py
+
+.ruff_cache

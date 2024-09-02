@@ -31,6 +31,7 @@ vgg = VGG19(original_vgg19_model)
 vgg.load_state_dict(torch.load("assets/vgg19_transfer.pth", map_location=device))
 vgg.eval()
 
+
 def explain_with_lime(model: nn.Module, image_path: str, target_class: int) -> None:
     image_transform = transforms.ToTensor()
 
@@ -61,12 +62,15 @@ def explain_with_lime(model: nn.Module, image_path: str, target_class: int) -> N
     pl.axis("off")
     pl.show()
 
+
 def explain_with_grad_cam(model: nn.Module, image_path: str, target_class: int) -> None:
-    image_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
+    image_transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ]
+    )
 
     img = Image.open(image_path)
     img = img.convert("RGB")
@@ -85,11 +89,11 @@ def explain_with_grad_cam(model: nn.Module, image_path: str, target_class: int) 
     pl.axis("off")
     pl.show()
 
+
 def explain_with_shap(model: nn.Module, image_path: str):
-    image_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor()
-    ])
+    image_transform = transforms.Compose(
+        [transforms.Resize((224, 224)), transforms.ToTensor()]
+    )
 
     def _prepare_image(path: str):
         image_to_explain = Image.open(path)
@@ -111,6 +115,7 @@ def explain_with_shap(model: nn.Module, image_path: str):
     test_numpy = np.swapaxes(np.swapaxes(image.numpy(), 1, -1), 1, 2)
     labels = ["glejak", "guz opon mózgowych", "brak nowotworu", "guz przysadki"]
     shap.image_plot(shap_numpy, test_numpy, labels)
+
 
 # explain_with_lime(cnn, "assets/test_meningioma.jpg", 1)
 explain_with_grad_cam(cnn, "assets/test_meningioma.jpg", 1)
